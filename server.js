@@ -1,4 +1,5 @@
 import express from 'express'
+var cors = require('cors')
 import {readdirSync} from 'fs'
 import mongoose from 'mongoose'
 require('dotenv').config()
@@ -14,8 +15,9 @@ mongoose.connect(process.env.DATABASE,
 .then(() => console.log('DB connect'))
 .catch((error)=> console.log('error',error))
 
-
+app.use(cors())
 app.use(morgan('dev'))
+app.use(express.json())
 readdirSync("./routes").map((r) => 
 app.use("/api", require(`./routes/${r}`))
 )
